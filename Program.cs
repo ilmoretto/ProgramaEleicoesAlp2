@@ -27,7 +27,7 @@ namespace ProgramaEleicoes
                     break;
 
                 case 1:  //cadastrar candidato
-
+                    CadastrarCandidato();
 
                     break;
 
@@ -47,16 +47,38 @@ namespace ProgramaEleicoes
 
         }
         static void CadastrarCandidato() {
-            List < (string nomeCompleto, string apelidoUrna, string numeroCandidato)> candidatos = new List<(string nomeCompleto, string apelidoUrna, string numeroCandidato)> ();
+            List < (string nomeCompleto, string nomeEleitoral, string numeroCandidato, string partido)> candidatos = new List<(string nomeCompleto, string nomeEleitoral, string numeroCandidato, string partido)> ();
 
             string nomeCompleto;
-            string apelidoUrna;
+            string nomeEleitoral;
+            string partido;
             string numeroCandidato;
-            char opcao = 's';
+            char opcaoMenu = 's';
 
-            while(opcao != 'n') {
+            while(opcaoMenu != 'n') {
+                Console.Write("Informe o nome completo do Candidato: ");
+                nomeCompleto = Console.ReadLine();
+
+                Console.Write("Informe o nome eleitoral do Candidato: ");
+                nomeEleitoral = Console.ReadLine();
+
+                Console.Write("Informe o partido do Candidato: ");
+                partido = Console.ReadLine();
+
+                Console.Write("Informe o número de votação do Candidato: ");
+                numeroCandidato = Console.ReadLine();
+
+                Console.WriteLine("\nCandidato cadastrado com sucesso!");
+
+                candidatos.Add((nomeCompleto, nomeEleitoral, partido, numeroCandidato));
+
+                Console.Write("\nDeseja cadastrar outro candidato? (s/n): ");
+                opcaoMenu = Convert.ToChar(Console.ReadLine().ToLower());
+
+               
 
             }
+            Console.ReadKey();
         }
     }
 }
