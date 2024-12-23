@@ -69,6 +69,7 @@ namespace ProgramaEleicoes
             Console.WriteLine("=====| CADASTRAR CANDIDATOS |=====");
 
             while (opcaoMenu != "n") {
+                Console.Clear();
                 Console.Write("Informe o nome completo do Candidato: ");
                 nomeCompleto = Console.ReadLine();
 
@@ -276,6 +277,7 @@ namespace ProgramaEleicoes
                 }
 
                 // exibir os resultados
+                Console.Clear();
                 Console.WriteLine("\nResultado da votação:");
 
                 // exibir os votos válidos por candidato
