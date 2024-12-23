@@ -9,61 +9,71 @@ namespace ProgramaEleicoes
 {
     internal class Program
     {
-        static void Main(string[] args) {
+        static void Main(string[] args)
+        {
             //Programa eleitoral - Start em 20/12/2024 às 22h59
 
             //Instanciando lista para cadastrar os candidatos
+            var corConsole = Console.BackgroundColor;
             List<(string nomeCompleto, string nomeEleitoral, string numeroCandidato, string partidoPolitico)> candidatos = new List<(string nomeCompleto, string nomeEleitoral, string numeroCandidato, string partidoPolitico)>();
-            int opcaoMenu = 0;
-            do {
+            bool encerrarPrograma = false;
+            while (!encerrarPrograma)
+            {
                 //Menu provisório
                 Console.Clear();
                 Console.WriteLine("=====|Programa de Eleições|=====");
-                Console.WriteLine("1 - Cadastrar Candidato");
-                Console.WriteLine("2 - Iniciar Votação");
-                Console.WriteLine("3 - Contar Votos e Exibir Resultado");
+                Console.WriteLine("1 - Candidatos");
+                Console.WriteLine("2 - ");
+                Console.WriteLine("3 - ");
                 Console.WriteLine("0 - Sair");
                 Console.Write("Escolha uma opção: ");
-                opcaoMenu = Convert.ToInt32(Console.ReadLine());
+                string opcaoMenu = Console.ReadLine();
 
 
-                switch (opcaoMenu) {
+                switch (opcaoMenu)
+                {
 
-                    case 0:
+                    case "0":
                         Console.WriteLine("Encerrando sistema...");
+                        encerrarPrograma = true;
                         break;
 
-                    case 1:  //cadastrar candidato
-                        CadastrarCandidato(candidatos);
-
-                        break;
-
-                    case 2:  // iniciar votação
+                    case "1":  //Candidatos
+                        SubmenuCandidatos(candidatos);
 
                         break;
 
-                    case 3: // encerrar votação
+                    case "2":
+
+
+                        break;
+
+                    case "3":
 
                         break;
 
 
                     default:
-                        Console.WriteLine("Opção inválida. Tente novamente!");
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Opção inválida. Clique qualquer tecla para tentar novamente!");
+                        Console.BackgroundColor = corConsole;
+                        Console.ReadKey();
                         break;
                 }// fim do switch
-            } while (opcaoMenu != 0);
+            } // fim do while do menu inicial
 
         }
-        static void CadastrarCandidato(List<(string nomeCompleto, string nomeEleitoral, string partidoPolitico, string numeroCandidato)> candidatos) {
-
-
+        //=====================================| FUNÇÕES | ==================================================
+        static void CadastrarCandidato(List<(string nomeCompleto, string nomeEleitoral, string partidoPolitico, string numeroCandidato)> candidatos)
+        {
             string nomeCompleto;
             string nomeEleitoral;
             string partidoPolitico;
             string numeroCandidato;
             string opcaoMenu = "s";
 
-            while (opcaoMenu != "n") {
+            while (opcaoMenu != "n")
+            {
                 Console.Write("Informe o nome completo do Candidato: ");
                 nomeCompleto = Console.ReadLine();
 
@@ -75,15 +85,19 @@ namespace ProgramaEleicoes
 
                 bool numeroValido;
 
-                do {
+                do
+                {
                     numeroValido = true;
                     Console.Write("Informe o número de votação do Candidato: ");
                     numeroCandidato = Console.ReadLine();
 
                     // Validação manual
-                    foreach (var candidato in candidatos) {
-                        if (candidato.numeroCandidato == numeroCandidato) {
-                            Console.WriteLine($"Erro: O número {numeroCandidato} já está cadastrado para outro candidato. Informe um número diferente.");
+                    foreach (var candidato in candidatos)
+                    {
+                        if (candidato.numeroCandidato == numeroCandidato)
+                        {
+                            Console.WriteLine($"Erro: O número {numeroCandidato} já está cadastrado para outro candidato. " +
+                                $"Informe um número diferente.");
                             numeroValido = false; // Número já existe, invalida a entrada
                             break;
                         }
@@ -103,7 +117,135 @@ namespace ProgramaEleicoes
             }
             Console.WriteLine("Cadastro encerrado, clique qualquer tecla para continuar...");
             Console.ReadKey();
-        }
+        }// fim da função cadastrar candidato
+        static void ExibirCandidatos(List<(string nomeCompleto, string nomeEleitoral, string partidoPolitico, string numeroCandidato)> candidatos)
+        {
+            if (candidatos.Count == 0)
+            {
+                Console.WriteLine("Nenhum candidato cadastrado! Pressione qualquer tecla para continuar.");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("{0,-4} | {1,-25} | {2,-20} | {3,-10} | {4,-15}",
+                  "ID", "Nome Completo", "Nome Eleitoral", "Número", "Partido"); //cabeçalho da tabela de exibição
+
+                Console.WriteLine(new string('-', 80)); // linha que separa o cabeçalho dos dados
+
+                for (int i = 0; i < candidatos.Count; i++)
+                {
+                    var candidato = candidatos[i];
+                    Console.WriteLine("{0,-4} | {1,-25} | {2,-20} | {3,-10} | {4,-15}",
+                                      i + 1, candidato.nomeCompleto, candidato.nomeEleitoral,
+                                      candidato.numeroCandidato, candidato.partidoPolitico); //exibindo dados dos candidatos
+                }
+
+                Console.WriteLine("\n\nPressione qualquer tecla para continuar.");
+            }
+            Console.ReadKey();
+        }// fim da função ExibirCandidatos
+
+        static void RemoverCandidatos(List<(string nomeCompleto, string nomeEleitoral, string partidoPolitico, string numeroCandidato)> candidatos)
+        {
+            if (candidatos.Count == 0)
+            {
+                Console.WriteLine("Nenhum candidato cadastrado. Pressione qualquer tecla para continuar.");
+            }
+            else
+            {
+                // Exibindo a lista de candidatos
+                Console.Clear();
+                Console.WriteLine("{0,-4} | {1,-25} | {2,-20} | {3,-10} | {4,-15}",
+                  "ID", "Nome Completo", "Nome Eleitoral", "Número", "Partido"); //cabeçalho da tabela de exibição
+
+                Console.WriteLine(new string('-', 80)); // linha que separa o cabeçalho dos dados
+
+                for (int i = 0; i < candidatos.Count; i++)
+                {
+                    var candidato = candidatos[i];
+                    Console.WriteLine("{0,-4} | {1,-25} | {2,-20} | {3,-10} | {4,-15}",
+                                      i + 1, candidato.nomeCompleto, candidato.nomeEleitoral,
+                                      candidato.numeroCandidato, candidato.partidoPolitico); //exibindo dados dos candidatos
+                }
+                // solicitar o número do candidato a ser removido
+                Console.WriteLine("\nInforme o número do candidato a ser removido:");
+                string numeroCandidato = Console.ReadLine();
+
+                // procurar pelo candidato com o número fornecido
+                bool candidatoEncontrado = false;
+
+                for (int i = 0; i < candidatos.Count; i++)
+                {
+                    if (candidatos[i].numeroCandidato == numeroCandidato)
+                    {
+                        candidatos.RemoveAt(i);
+                        candidatoEncontrado = true;
+                        Console.WriteLine("CANDIDATO REMOVIDO COM SUCESSO!");
+                        break;
+                    }
+                }
+
+                if (!candidatoEncontrado)
+                {
+                    Console.WriteLine("Erro: Número do candidato não encontrado! Pressione qualquer tecla para continuar.");
+                }
+            }
+            Console.ReadKey();
+
+        }//Fim da Função RemoverCandidatos
+
+        //=====================================| SUBMENUS | ==================================================
+
+        static void SubmenuCandidatos(List<(string nomeCompleto, string nomeEleitoral, string partidoPolitico, string numeroCandidato)> candidatos)
+        {
+
+            bool voltarAoMenu = false;
+
+            while (!voltarAoMenu)
+            {
+                Console.Clear();
+                Console.WriteLine("=====| CANDIDATOS | =====");
+                Console.WriteLine("1 - Cadastrar");
+                Console.WriteLine("2 - Exibir");
+                Console.WriteLine("3 - Remover");
+                Console.WriteLine("0 - Voltar ao Menu");
+                Console.Write("Escolha uma opção: ");
+                string opcao = Console.ReadLine();
+
+                switch (opcao)
+                {
+                    case "0":
+
+                        Console.WriteLine("Redirecionando ao menu inicial...");
+                        voltarAoMenu = true;
+                        break;
+                    case "1":
+                        CadastrarCandidato(candidatos);
+
+                        break;
+
+                    case "2":
+                        ExibirCandidatos(candidatos);
+
+                        break;
+
+                    case "3":
+                        RemoverCandidatos(candidatos);
+
+                        break;
+
+                    default:
+                        Console.WriteLine("Opção inválida! Pressione qualquer tecla para tentar novamente.");
+                        Console.ReadKey();
+
+                        break;
+                }// fim do switch
+
+
+            }// fim do laço while
+
+        }// fim da função submenu de candidatos
+
 
     }
 }
